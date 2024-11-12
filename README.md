@@ -18,8 +18,8 @@ This project provides an embedding-based retrieval system that generates embeddi
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/embedding-retrieval-system.git
-cd embedding-retrieval-system
+git clone https://github.com/mehdixlabetix/graphRAG.git
+cd graphRAG
 ```
 ### 2. Install Dependencies
 Use the requirements.txt file to install the required packages.
@@ -32,63 +32,48 @@ Create a `.env` file in the root directory and add the following environment var
 
 ```bash
 OPENAI_API_KEY=your_openai_api_key
-DATABASE_URL=your_database_url  # Example for LanceDB connection``` 
+DATABASE_URL=your_database_url  #LanceDB connection uri``` 
 ```
-### 4. API Usage
+
+### 4. Run the Application
+Start the FastAPI server using the following command:
+
+```bash
+python -m uvicorn main:app
+```
+   
+### 5. API Usage
 This project includes endpoints to create embeddings, retrieve similar texts, and generate answers.
 
 Create Embeddings
-POST /create-embeddings
+POST /upload
 Request Body:
 
 ```    json
 {
-  "document_id": "doc1",
-  "chunks": ["This is the first chunk.", "This is the second chunk."],
-  "knowledge_graph": {"example_key": "example_value"}
+    "url": "document url"
 }
+
 ```
 Response:
 
 ```json
 {
-  "status": "success",
-  "message": "Embeddings created successfully."
+    "document_id": "uuid",
+    "message": "PDF processed, embeddings created, and knowledge graph built",
+    "graph_stats":"graph statistics"
 }
 ```
-Retrieve Similar Texts
-POST /retrieve-similar-texts
-Request Body:
 
-```json
-{
-  "document_id": "doc1",
-  "query": "Sample query text",
-  "top_n": 5
-}
-```
-        
-Response:
-
-```json
-[
-  {
-    "text": "This is the first chunk.",
-    "score": 0.85,
-    "knowledge_graph": "example_value"
-  },
-  ...
-]
-```
 Generate Answer
-POST /generate-answer
+POST /answer
 Request Body:
 
 ```json
-{
-  "document_id": "doc1",
-  "knowledge_graph": {"example_key": "example_value"},
-  "query": "What is the content about?"
+  {
+    "document_id":"uuid",
+    "query":"type your query here"
+
 }
 ```
 Response:
